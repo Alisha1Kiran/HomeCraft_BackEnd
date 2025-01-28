@@ -1,15 +1,14 @@
 const User = require("./../models/UserModel");
 const bcrypt = require("bcryptjs");
-const generateToken = require("./../utils/generateToken")
+const generateToken = require("./../utils/generateToken");
+const {sendSuccess, sendError} = require("./../utils/apiUtils")
 
 const createUser = async (req, res) => {
   try {
     const { fullName, email, password, address, contactNumber } = req.body;
 
     if (!fullName || !email || !password) {
-      return res
-        .status(400)
-        .json({ message: "Full name, email, and password are required." });
+      return sendError(res, 400, "Full name, email, and password are required.");
     }
 
     // Hashing the password
@@ -28,9 +27,7 @@ const createUser = async (req, res) => {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
         console.log("existingUser : ", existingUser);
-      return res
-        .status(409)
-        .json({ message: "Account exits with the given email id" });
+        return sendError(res, 409, "Account exists with the given email ID.");
     }
 
     await newUser
@@ -38,7 +35,7 @@ const createUser = async (req, res) => {
       .then((savedUser) => {
         // Generate a JWT token
         const token = generateToken({
-          id: savedUser.id,
+          id: savedUser._id,
           email: savedUser.email,
           role: savedUser.role,
         });
@@ -51,26 +48,18 @@ const createUser = async (req, res) => {
         });
 
         // Send the user details as the response
-        res.status(201).json({
-          message: "User created successfully",
-          user: {
-            id: savedUser.id,
-            fullName: savedUser.fullName,
-            email: savedUser.email,
-            role: savedUser.role,
-          },
+        sendSuccess(res, 201, "User created successfully", {
+          id: savedUser.id,
+          fullName: savedUser.fullName,
+          email: savedUser.email,
+          role: savedUser.role,
         });
       })
       .catch((error) => {
-        res.status(500).json({
-          message: "Error adding user",
-          error: error.message, // Send the error message in the response
-        });
+        sendError(res, 500, `Error adding user: ${error.message}`);
       });
   } catch (error) {
-    res
-      .status(500)
-      .json({ error: "Failed to create user.", details: error.message });
+    sendError(res, 500, `Failed to create user. Error: ${error.message}`);
   }
 };
 
@@ -78,36 +67,27 @@ const createUser = async (req, res) => {
 const getAllUsers = async (req, res) => {
   try {
     if (req.user.role !== "admin")
-      return res.status(403).json({ message: "Access denied: Admins only" });
+      return sendError(res, 403, "Access denied: Admins only");
 
     const usersList = await User.find();
-    res.json(usersList);
+    sendSuccess(res, 200, "User list retrieved successfully", usersList);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    sendError(res, 500, `Failed to retrieve users. Error: ${err.message}`);
   }
 }
 
 // get user by id
 const getUserById = async (req, res) => {
   const userId = req.params.id;
-
   try {
     const userDetails = await User.findOne({id : userId});
 
     if (!userDetails)
-      return res.status(402).json({
-        message: "User not found",
-      });
+      return sendError(res, 404, "User not found");
 
-    res.status(200).json({
-      message: "User found successfully",
-      user: userDetails,
-    });
+    sendSuccess(res, 200, "User found successfully", userDetails);
   } catch (error) {
-    res.status(500).json({
-      message: "Error finding user",
-      error: error.message, // Send the error message in the response
-    });
+    sendError(res, 500, `Error finding user. Details: ${error.message}`);
   }
 };
 
@@ -123,19 +103,11 @@ const updateUserData = async (req, res) => {
       { new: true, runValidators: true } // Return updated document and validate changes
     );
 
-    if (!updatedUser) {
-      return res.status(404).json({ message: "User not found" });
-    }
+    if (!updatedUser) return sendError(res, 404, "User not found");
 
-    res.status(200).json({
-      message: "User updated successfully",
-      updatedUser,
-    });
+    sendSuccess(res, 200, "User updated successfully", updatedUser);
   } catch (error) {
-    res.status(500).json({
-      message: "Error updating user details",
-      error: error.message,
-    });
+    sendError(res, 500, `Error updating user details. Details: ${error.message}`);
   }
 };
 
@@ -144,23 +116,15 @@ const deleteUser = async (req, res) => {
   const userId = req.params.id; // User ID from URL
   try {
     if(!(req.user.id == userId || req.user.role === 'admin'))
-      return res.status(403).json({ message: "You are not authorized to perform this operation." });
+      return sendError(res, 403, "You are not authorized to perform this operation.");
 
     const deleteUser = await User.findOneAndDelete({ id: userId });
 
-    if (!deleteUser) {
-      return res.status(404).json({ message: "User not found" });
-    }
+    if (!deleteUser) return sendError(res, 404, "User not found.");
 
-    res.status(200).json({
-      message: "User deleted successfully",
-      deleteUser,
-    });
+    sendSuccess(res, 200, "User deleted successfully", deletedUser);
   } catch (error) {
-    res.status(500).json({
-      message: "Error deleting product",
-      error: error.message,
-    });
+    sendError(res, 500, `Error deleting user. Details: ${error.message}`);
   }
 };
 

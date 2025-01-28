@@ -1,10 +1,15 @@
 const express = require("express");
 const apiRouter = express.Router();
 const userRouter = require("./userRouter");
+const productsRouter = require("./productsRouter");
+const reviewRouter = require("./reviewRouter")
+const orderRouter = require("./orderRouter");
 
 
 // apiRouter.use("/auth");
 apiRouter.use("/user", userRouter);
-// apiRouter.use("/products");
+apiRouter.use("/products", productsRouter);
+apiRouter.use("/review", reviewRouter);
+apiRouter.use("/order", orderRouter)
 
 module.exports = apiRouter;

@@ -4,8 +4,8 @@ const generateCustomId = require('./../utils/customIdGenerator');
 // Generating Schema
 const userSchema = new mongoose.Schema({
     id: { type: Number, unique: true }, // Custom ID field
-    fullName : { type: String, required: true, unique: true },
-    email : { type: String, required: true, unique: true },
+    fullName : { type: String, required: true, unique: true, trim: true, },
+    email : { type: String, required: true, unique: true, trim: true, },
     password : { type: String, required: true},
     address : {
         street : { type : String },
@@ -21,7 +21,11 @@ const userSchema = new mongoose.Schema({
     },
     contactNumber : { type : Number},
     wishlist: [{ type : mongoose.Schema.Types.ObjectId, ref : 'Product' }],
-    role: {type: String, required: true}
+    role: {type: String, required: true},
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    }
 }
 );
 

@@ -3,7 +3,8 @@ const userRouter = express.Router();
 const validateAddress = require("./../middlewares/validateAddress");
 const { createUser, getAllUsers, updateUserData, getUserById, deleteUser } = require("./../controllers/userController");
 const {userLogin, userLogout} = require("../controllers/sessionController");
-const verifyToken = require("./../middlewares/verifyToken")
+const verifyToken = require("./../middlewares/verifyToken");
+const cartRouter = require("./cartRoutes");
 
 userRouter.post("/register", validateAddress, createUser);
 
@@ -18,5 +19,7 @@ userRouter.get("/getUserData/:id", getUserById);
 userRouter.put("/updateUserData/:id", updateUserData);
 
 userRouter.delete("/deleteAccount/:id", verifyToken, deleteUser);
+
+userRouter.use('/cart', cartRouter);
 
 module.exports = userRouter;

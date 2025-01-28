@@ -21,7 +21,7 @@ const userLogin = async (req, res) => {
 
     // Generate a JWT token
     const token = generateToken({
-      id: user.id,
+      id: user._id,
       email: user.email,
       role: user.role,
     });
