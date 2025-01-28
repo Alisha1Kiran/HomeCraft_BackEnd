@@ -86,8 +86,9 @@ const updateReview = async (req, res) => {
 
 // Delete a review
 const deleteProductReview = async (req, res) => {
+    console.log("cjwdij")
     try {
-        const { reviewId } = req.params;
+        const reviewId = req.params.reviewId;
 
         const review = await Reviews.findByIdAndDelete(reviewId);
 

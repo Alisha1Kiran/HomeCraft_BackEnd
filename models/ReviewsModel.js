@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const reviewSchema = new mongoose.Schema({
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Users', // Reference to the User model
+        ref: 'User', // Reference to the User model
         required: true
     },
     product_id: {

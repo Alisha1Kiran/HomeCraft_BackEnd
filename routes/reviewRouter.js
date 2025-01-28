@@ -16,6 +16,6 @@ reviewRouter.get('/getUserReview/:userId', fetchUserReview);
 reviewRouter.put('/updateReview/:reviewId', updateReview);
 
 // Delete product review
-reviewRouter.delete('deleteReview/:reviewId', deleteProductReview);
+reviewRouter.delete('/deleteReview/:reviewId', deleteProductReview);
 
 module.exports = reviewRouter;
