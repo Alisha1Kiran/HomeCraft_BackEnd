@@ -2,8 +2,15 @@ const express = require("express");
 const mongoose = require("mongoose");
 const apiRouter = require("./routes/apiRouter");
 const cookieParser = require("cookie-parser");
+const dotenv = require("dotenv");
+// const cors = require("cors");
 
+dotenv.config();
 const server = new express();
+
+// app.use(express.json());
+// app.use(cors());
+
 const port = 3000;
 const mongooseUrl =
   "mongodb+srv://alishasatheesan1992:ivhJ8gcPQEqiEeNz@cluster0.3mrnn.mongodb.net/HomeCraftDB?retryWrites=true&w=majority&appName=HomeCraftCluster";

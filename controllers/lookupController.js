@@ -49,4 +49,37 @@ const mattressType = async (req, res) => {
     }
 }
 
-module.exports = {getCategory, getSubCategory, getBedSize, mattressType};
+const seatingSize = async (req, res) => {
+    try {
+        const seating_size = await mongoose.connection.db.collection('seatingSize').find({}).toArray();
+        if (!seating_size.length) return res.status(404).json({ success: false, message: 'No items found' });
+
+        res.status(200).json({ success: true, message: 'Seating size fetched successfully', seating_size });
+    } catch (error) {
+        res.status(500).json({ success: false, message: `Error fetching seating size: ${error.message}` });
+    }
+}
+
+const wardrobeDoorCount = async (req, res) => {
+    try {
+        const door_count = await mongoose.connection.db.collection('seatingSize').find({}).toArray();
+        if (!door_count.length) return res.status(404).json({ success: false, message: 'No items found' });
+
+        res.status(200).json({ success: true, message: 'Wardrobe door type fetched successfully', door_count });
+    } catch (error) {
+        res.status(500).json({ success: false, message: `Error fetching wardrobe door type: ${error.message}` });
+    }
+}
+
+const purposeFor = async (req, res) => {
+    try {
+        const purpose_for = await mongoose.connection.db.collection('purposeFor').find({}).toArray();
+        if (!purpose_for.length) return res.status(404).json({ success: false, message: 'No items found' });
+
+        res.status(200).json({ success: true, message: 'Purpose for data type fetched successfully', purpose_for });
+    } catch (error) {
+        res.status(500).json({ success: false, message: `Error fetching purpose for data: ${error.message}` });
+    }
+}
+
+module.exports = {getCategory, getSubCategory, getBedSize, mattressType, seatingSize, wardrobeDoorCount, purposeFor};
