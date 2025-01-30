@@ -8,7 +8,7 @@ const verifyToken = (req, res, next) => {
             return res.status(401).json({ message: "Access denied. No token provided." });
         }
 
-        const decoded = jwt.verify(token, 'homeCraft_jwt_secret_123');
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
         // Attach user data to the request
         req.user = decoded;
 

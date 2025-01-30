@@ -33,10 +33,14 @@ const userLogin = async (req, res) => {
       maxAge: 60 * 60 * 1000, // Cookie expiry time (1 hour)
     });
 
+    // Convert user document to object & remove password
+    const userWithoutPassword = user.toObject();
+    delete userWithoutPassword.password;
+
     // Send the token to the client
     res.status(200).json({
       message: "Loggedin successfully",
-      user: user,
+      user: userWithoutPassword,
     });
   } catch (error) {
     console.error(`Error is : ${error}`);

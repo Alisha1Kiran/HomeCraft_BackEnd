@@ -2,18 +2,12 @@ const express = require("express");
 const mongoose = require("mongoose");
 const apiRouter = require("./routes/apiRouter");
 const cookieParser = require("cookie-parser");
-const dotenv = require("dotenv");
-// const cors = require("cors");
+const cors = require("cors");
 
-dotenv.config();
+require("dotenv").config();
 const server = new express();
-
-// app.use(express.json());
-// app.use(cors());
-
-const port = 3000;
-const mongooseUrl =
-  "mongodb+srv://alishasatheesan1992:ivhJ8gcPQEqiEeNz@cluster0.3mrnn.mongodb.net/HomeCraftDB?retryWrites=true&w=majority&appName=HomeCraftCluster";
+const port = process.env.PORT;
+const mongooseUrl = process.env.MONGODB_URL;
 
 server.get("/", (req, res) => {
   res.send("Hello!  Starting Home Craft !");
@@ -28,6 +22,8 @@ mongoose
   .catch((err) => {
     console.error(`Mongo DB comnection error : ${err}`);
   });
+
+server.use(cors());
 
 // Important to handle incoming JSON
 server.use(express.json());
