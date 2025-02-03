@@ -23,7 +23,18 @@ mongoose
     console.error(`Mongo DB comnection error : ${err}`);
   });
 
-server.use(cors());
+const allowedOrigins = [
+  "http://localhost:5173", // Local development
+  "https://homecraft-backend.onrender.com", // frontend production domain
+];
+// Use cors middleware
+server.use(
+  cors({
+    origin: allowedOrigins,
+    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
+    allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
+  })
+);
 
 // Important to handle incoming JSON
 server.use(express.json());
