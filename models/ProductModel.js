@@ -29,6 +29,14 @@ const productSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    images: [
+        {
+            url: {
+                type: String,
+                required: true
+            }
+        }    
+    ],
     specifications: {
         weight: {
             type: String,
@@ -67,15 +75,7 @@ const productSchema = new mongoose.Schema({
         },
         door_count: {
             type: String
-        },
-        images: [
-            {
-                url: {
-                    type: String,
-                    required: true
-                }
-            }    
-        ]
+        }
     },
     ratings: {
         type: Number,
