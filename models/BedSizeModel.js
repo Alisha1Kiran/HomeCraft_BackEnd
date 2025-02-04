@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 
 const bed_sizeSchema = new mongoose.Schema({
   size: {
-    type: string,
+    type: String,
     required: true,
   },
   ref_pic: {
-    type: string,
+    type: String,
     required: true,
   },
 });

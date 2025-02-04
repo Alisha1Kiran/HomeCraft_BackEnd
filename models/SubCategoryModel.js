@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const sub_categorySchema = new mongoose.Schema({
   name: {
-    type: string,
+    type: String,
     required: true,
   },
   category_id: {
@@ -11,7 +11,7 @@ const sub_categorySchema = new mongoose.Schema({
     required: true,
   },
   ref_pic: {
-    type: string,
+    type: String,
     required: true,
   },
 });

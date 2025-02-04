@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const seating_sizeSchema = new mongoose.Schema({
   seating_limit: {
-    type: string,
+    type: String,
     required: true,
   }
 });

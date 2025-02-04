@@ -2,11 +2,11 @@ const mongoose = require('mongoose');
 
 const categorySchema = new mongoose.Schema({
     cat_name : {
-        type: string,
+        type: String,
         required: true
     },
     ref_pic : {
-        type: string,
+        type: String,
         required: true
     },
 });

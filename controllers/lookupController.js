@@ -8,7 +8,7 @@ const DoorCount = require("./../models/DoorCountModel");
 
 const getCategory = async (req, res) => {
     try {
-        const categories = await Category.find({}).toArray();
+        const categories = await Category.find({});
         if (!categories.length) return res.status(404).json({ success: false, message: 'No categories found' });
 
         res.status(200).json({ success: true, message: 'Categories fetched successfully', categories });
@@ -20,8 +20,7 @@ const getCategory = async (req, res) => {
 const getSubCategory = async (req, res) => {
     const categoryId = req.params.categoryId;
     try {
-        const subcategories = await SubCategory.find({ category_id: new mongoose.Types.ObjectId(categoryId) }) // Use 'new' with ObjectId
-            .toArray();
+        const subcategories = await SubCategory.find({ category_id: new mongoose.Types.ObjectId(categoryId) });
 
         if (!subcategories.length) return res.status(404).json({ success: false, message: 'No subcategories found' });
 
@@ -33,7 +32,7 @@ const getSubCategory = async (req, res) => {
 
 const getBedSize = async (req, res) => {
     try {
-        const bedSize = await BedSize.find({}).toArray();
+        const bedSize = await BedSize.find({});
         if (!bedSize.length) return res.status(404).json({ success: false, message: 'No bedSize found' });
 
         res.status(200).json({ success: true, message: 'Bed size fetched successfully', bedSize });
@@ -55,7 +54,7 @@ const mattressType = async (req, res) => {
 
 const seatingSize = async (req, res) => {
     try {
-        const seating_size = await SeatingSize.find({}).toArray();
+        const seating_size = await SeatingSize.find({});
         if (!seating_size.length) return res.status(404).json({ success: false, message: 'No items found' });
 
         res.status(200).json({ success: true, message: 'Seating size fetched successfully', seating_size });
@@ -66,7 +65,7 @@ const seatingSize = async (req, res) => {
 
 const wardrobeDoorCount = async (req, res) => {
     try {
-        const door_count = await DoorCount.find({}).toArray();
+        const door_count = await DoorCount.find({});
         if (!door_count.length) return res.status(404).json({ success: false, message: 'No items found' });
 
         res.status(200).json({ success: true, message: 'Wardrobe door type fetched successfully', door_count });
@@ -77,7 +76,7 @@ const wardrobeDoorCount = async (req, res) => {
 
 const purposeFor = async (req, res) => {
     try {
-        const purpose_for = await PurposeFor.find({}).toArray();
+        const purpose_for = await PurposeFor.find({});
         if (!purpose_for.length) return res.status(404).json({ success: false, message: 'No items found' });
 
         res.status(200).json({ success: true, message: 'Purpose for data type fetched successfully', purpose_for });

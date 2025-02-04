@@ -1,4 +1,4 @@
-const Product = require("./../models/Product");
+const Products = require("./../models/ProductModel");
 const Category = require("./../models/CategoryModel");
 const SubCategory = require("./../models/SubCategoryModel");
 const PurposeFor = require("./../models/PurposeForModel");
@@ -16,7 +16,7 @@ const searchProduct = async (req, res) => {
     const category = await Category.findOne({ name: { $regex: searchName, $options: "i" } });
     if (category) {
       // If category matches, fetch products that belong to this category
-      const products = await Product.find({ category_id: category._id });
+      const products = await Products.find({ category_id: category._id });
       return res.status(200).json({ products });
     }
 
@@ -24,7 +24,7 @@ const searchProduct = async (req, res) => {
     const subCategory = await SubCategory.findOne({ name: { $regex: searchName, $options: "i" } });
     if (subCategory) {
       // If sub-category matches, fetch products that belong to this sub-category
-      const products = await Product.find({ subcategory_id: subCategory._id });
+      const products = await Products.find({ subcategory_id: subCategory._id });
       return res.status(200).json({ products });
     }
 
@@ -32,7 +32,7 @@ const searchProduct = async (req, res) => {
     const purposeFor = await PurposeFor.findOne({ name: { $regex: searchName, $options: "i" } });
     if (purposeFor) {
       // If sub-category matches, fetch products that belong to this sub-category
-      const products = await Product.find({ purposeFor_id: purposeFor._id });
+      const products = await Products.find({ purposeFor_id: purposeFor._id });
       return res.status(200).json({ products });
     }
 
@@ -40,7 +40,7 @@ const searchProduct = async (req, res) => {
     const bedSize = await BedSize.findOne({ name: { $regex: searchName, $options: "i" } });
     if (bedSize) {
       // If bed-size matches, fetch products that belong to this bed size
-      const products = await Product.find({ bed_size_id: bedSize._id });
+      const products = await Products.find({ bed_size_id: bedSize._id });
       return res.status(200).json({ products });
     }
 
@@ -48,7 +48,7 @@ const searchProduct = async (req, res) => {
     const seatingSize = await SeatingSize.findOne({ name: { $regex: searchName, $options: "i" } });
     if (seatingSize) {
       // If bed-size matches, fetch products that belong to this bed size
-      const products = await Product.find({ seatingSize: seatingSize._id });
+      const products = await Products.find({ seatingSize: seatingSize._id });
       return res.status(200).json({ products });
     }
 
@@ -56,7 +56,7 @@ const searchProduct = async (req, res) => {
     const doorCout = await DoorCount.findOne({ name: { $regex: searchName, $options: "i" } });
     if (doorCout) {
       // If bed-size matches, fetch products that belong to this bed size
-      const products = await Product.find({ doorCout_id: doorCout._id });
+      const products = await Products.find({ doorCout_id: doorCout._id });
       return res.status(200).json({ products });
     }
 

@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 
 const purpose_forSchema = new mongoose.Schema({
   for_name: {
-      type: string,
+      type: String,
       required: true,
     },
     ref_pic: {
-      type: string
+      type: String
     },
   });
 

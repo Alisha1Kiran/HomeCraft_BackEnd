@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const door_countSchema = new mongoose.Schema({
   door_type: {
-    type: string,
+    type: String,
     required: true,
   }
 });
