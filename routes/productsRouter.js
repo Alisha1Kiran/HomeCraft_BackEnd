@@ -8,6 +8,7 @@ const {
   deleteProduct,
 } = require("./../controllers/productsController");
 const verifyToken = require("./../middlewares/verifyToken");
+const {searchProduct} = require("./../controllers/productSearch");
 
 productsRouter.post("/addProducts", verifyToken, createProduct);
 

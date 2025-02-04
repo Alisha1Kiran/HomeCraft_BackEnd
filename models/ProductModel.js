@@ -22,7 +22,17 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    for_id: {
+    purposeFor_id: {
+        type: String,
+        required: true
+    },
+    bedSize_id: {
+        type: String
+    },
+    seatingSize_id: {
+        type: String
+    },
+    doorCout_id: {
         type: String
     },
     stock: {
