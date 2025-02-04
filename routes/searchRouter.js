@@ -3,6 +3,6 @@ const searchRouter = express.Router();
 const {searchProduct} = require("./../controllers/productSearch");
 
 // General search
-searchRouter.get('/:searchName', searchProduct);
+searchRouter.get('/:searchTerm1/:searchTerm2?', searchProduct);
 
 module.exports = searchRouter;
