@@ -8,6 +8,7 @@ const lookupRouter = require("./lookupRouter");
 const searchRouter = require("./searchRouter");
 const uploadImage = require("../controllers/uploadImage");
 const { upload } = require("../config/cloudninary");
+const verifyToken = require("../middlewares/verifyToken");
 
 // apiRouter.use("/auth");
 apiRouter.use("/user", userRouter);
@@ -17,5 +18,9 @@ apiRouter.use("/order", orderRouter);
 apiRouter.use("/lookup", lookupRouter);
 apiRouter.use("/search", searchRouter);
 apiRouter.post("/upload-image", upload.single("image"), uploadImage);
+
+apiRouter.get("/auth/checkAuth", verifyToken, (req,res) => {
+    res.json({ isAuthenticated: true, user: req.user });
+})
 
 module.exports = apiRouter;

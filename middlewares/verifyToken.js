@@ -5,16 +5,15 @@ const verifyToken = (req, res, next) => {
         const token = req.cookies.authToken;
         console.log("token: ", token);
         if(!token){
-            return res.status(401).json({ message: "Access denied. No token provided." });
+            return res.status(401).json({isAuthenticated: false, message: "Access denied. No token provided." });
         }
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         // Attach user data to the request
         req.user = decoded;
-
         next();
     } catch (error) {
-        res.status(403).json({ message: "Invalid or expired token..", error: error.message });
+        res.status(403).json({isAuthenticated: false, message: "Invalid or expired token..", error: error.message });
     }
 }
 
