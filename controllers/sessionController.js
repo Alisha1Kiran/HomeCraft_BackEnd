@@ -31,6 +31,7 @@ const userLogin = async (req, res) => {
       httpOnly: true, // Prevent access to cookies via JavaScript
       secure: process.env.NODE_ENV === "production", // Use secure cookies in production
       maxAge: 60 * 60 * 1000, // Cookie expiry time (1 hour)
+      sameSite: "None"
     });
 
     // Convert user document to object & remove password
