@@ -20,6 +20,6 @@ userRouter.put("/updateUserData/:id", updateUserData);
 
 userRouter.delete("/deleteAccount/:id", verifyToken, deleteUser);
 
-userRouter.use('/cart', cartRouter);
+userRouter.use("/cart", cartRouter);
 
 module.exports = userRouter;

@@ -20,30 +20,30 @@ apiRouter.use("/search", searchRouter);
 apiRouter.post("/upload-image", upload.single("image"), uploadImage);
 
 apiRouter.get("/auth/checkAuth", (req, res) => {
-    const token = req.cookies.authToken;
+  const token = req.cookies.authToken;
 
-    // If the token is available, verify it
-    if (token) {
-        try {
-            const decoded = jwt.verify(token, process.env.JWT_SECRET);
-            return res.status(200).json({
-                isAuthenticated: true,
-                userId: decoded.userId,
-                message: "Authenticated"
-            });
-        } catch (error) {
-            return res.status(403).json({
-                isAuthenticated: false,
-                message: "Invalid or expired token"
-            });
-        }
-    }
-
-    // If no token is available, generate a guest ID
-    return res.status(200).json({
+  // If the token is available, verify it
+  if (token) {
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      return res.status(200).json({
+        isAuthenticated: true,
+        userId: decoded.userId,
+        message: "Authenticated",
+      });
+    } catch (error) {
+      return res.status(403).json({
         isAuthenticated: false,
-        message: "Guest user"
-    });
-})
+        message: "Invalid or expired token",
+      });
+    }
+  }
+
+  // If no token is available, generate a guest ID
+  return res.status(200).json({
+    isAuthenticated: false,
+    message: "Guest user",
+  });
+});
 
 module.exports = apiRouter;

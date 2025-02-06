@@ -9,7 +9,9 @@ const {
 // add to cart
 cartRouter.post("/addToCart", addCart);
 
-cartRouter.get("/viewUserCart/:user_id?/:guest_id?", viewCart);
+cartRouter.get("/:user_id", viewCart);
+
+cartRouter.get("/guest/:guest_id", viewCart);
 
 cartRouter.delete("/deleteCartItem", deleteCartItem);
 
