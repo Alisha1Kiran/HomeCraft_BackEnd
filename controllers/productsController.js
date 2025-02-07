@@ -73,6 +73,23 @@ const getProductById = async (req, res) => {
     }
 };
 
+// Fetch product by name
+const getProductByName = async (req, res) => {
+  try {
+    const productName = decodeURIComponent(req.params.productName);
+
+    const product = await Product.findOne({ name: productName });
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    res.json({ message: "Product found successfully", product });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
 // Update product data
 const updateProduct = async (req, res) => {
     if(!req.user || req.user.role !== "admin") return sendError(res, "Not an authorized user to perform this action");
@@ -110,4 +127,4 @@ const deleteProduct = async (req, res) => {
     }
 };
 
-module.exports = {createProduct, getAllProducts, getProductById, updateProduct, deleteProduct}
+module.exports = {createProduct, getAllProducts, getProductById, getProductByName, updateProduct, deleteProduct}

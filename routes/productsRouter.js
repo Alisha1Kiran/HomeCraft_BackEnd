@@ -4,6 +4,7 @@ const {
   createProduct,
   getAllProducts,
   getProductById,
+  getProductByName,
   updateProduct,
   deleteProduct,
 } = require("./../controllers/productsController");
@@ -15,6 +16,8 @@ productsRouter.post("/addProducts", verifyToken, createProduct);
 productsRouter.get("/viewAllProducts", getAllProducts);
 
 productsRouter.get("/viewProductDetails/:id", getProductById);
+
+productsRouter.get("/viewProduct/:productName", getProductByName);
 
 productsRouter.put("/editProductDetails/:id", verifyToken, updateProduct);
 
