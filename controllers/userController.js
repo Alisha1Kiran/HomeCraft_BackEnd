@@ -1,14 +1,18 @@
 const User = require("./../models/UserModel");
 const bcrypt = require("bcryptjs");
 const generateToken = require("./../utils/generateToken");
-const {sendSuccess, sendError} = require("./../utils/apiUtils")
+const { sendSuccess, sendError } = require("./../utils/apiUtils");
 
 const createUser = async (req, res) => {
   try {
     const { fullName, email, password, address, contactNumber } = req.body;
 
     if (!fullName || !email || !password) {
-      return sendError(res, 400, "Full name, email, and password are required.");
+      return sendError(
+        res,
+        400,
+        "Full name, email, and password are required."
+      );
     }
 
     // Hashing the password
@@ -26,8 +30,8 @@ const createUser = async (req, res) => {
     // Check if its an existing user
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-        console.log("existingUser : ", existingUser);
-        return sendError(res, 409, "Account exists with the given email ID.");
+      console.log("existingUser : ", existingUser);
+      return sendError(res, 409, "Account exists with the given email ID.");
     }
 
     await newUser
@@ -46,14 +50,12 @@ const createUser = async (req, res) => {
           secure: process.env.NODE_ENV === "production", // Use secure cookies in production
           maxAge: 60 * 60 * 1000, // Cookie expiry time (1 hour)
         });
+        // Convert user document to object & remove password
+        const userWithoutPassword = savedUser.toObject();
+        delete userWithoutPassword.password;
 
         // Send the user details as the response
-        sendSuccess(res, 201, "User created successfully", {
-          id: savedUser.id,
-          fullName: savedUser.fullName,
-          email: savedUser.email,
-          role: savedUser.role,
-        });
+        sendSuccess(res, 201, "User created successfully", userWithoutPassword);
       })
       .catch((error) => {
         sendError(res, 500, `Error adding user: ${error.message}`);
@@ -74,16 +76,15 @@ const getAllUsers = async (req, res) => {
   } catch (err) {
     sendError(res, 500, `Failed to retrieve users. Error: ${err.message}`);
   }
-}
+};
 
 // get user by id
 const getUserById = async (req, res) => {
   const userId = req.params.id;
   try {
-    const userDetails = await User.findOne({id : userId});
+    const userDetails = await User.findOne({ id: userId });
 
-    if (!userDetails)
-      return sendError(res, 404, "User not found");
+    if (!userDetails) return sendError(res, 404, "User not found");
 
     sendSuccess(res, 200, "User found successfully", userDetails);
   } catch (error) {
@@ -107,7 +108,11 @@ const updateUserData = async (req, res) => {
 
     sendSuccess(res, 200, "User updated successfully", updatedUser);
   } catch (error) {
-    sendError(res, 500, `Error updating user details. Details: ${error.message}`);
+    sendError(
+      res,
+      500,
+      `Error updating user details. Details: ${error.message}`
+    );
   }
 };
 
@@ -115,8 +120,12 @@ const updateUserData = async (req, res) => {
 const deleteUser = async (req, res) => {
   const userId = req.params.id; // User ID from URL
   try {
-    if(!(req.user.id == userId || req.user.role === 'admin'))
-      return sendError(res, 403, "You are not authorized to perform this operation.");
+    if (!(req.user.id == userId || req.user.role === "admin"))
+      return sendError(
+        res,
+        403,
+        "You are not authorized to perform this operation."
+      );
 
     const deleteUser = await User.findOneAndDelete({ id: userId });
 
@@ -128,4 +137,10 @@ const deleteUser = async (req, res) => {
   }
 };
 
-module.exports = { createUser, getAllUsers, updateUserData, getUserById, deleteUser };
+module.exports = {
+  createUser,
+  getAllUsers,
+  updateUserData,
+  getUserById,
+  deleteUser,
+};

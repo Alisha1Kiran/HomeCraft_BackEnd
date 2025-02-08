@@ -1,5 +1,5 @@
 const locationData = {
-    India: ['Andhra Pradesh', 'Karnataka', 'Maharashtra', 'Tamil Nadu', 'Uttar Pradesh'],
+    India: ['Kerala','Tamil Nadu', 'Andhra Pradesh', 'Karnataka', 'Maharashtra', 'Uttar Pradesh'],
     'United Arab Emirates': ['Abu Dhabi', 'Dubai', 'Sharjah', 'Ajman', 'Ras Al Khaimah'],
   };
   
