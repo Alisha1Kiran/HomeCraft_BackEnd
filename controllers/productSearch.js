@@ -70,7 +70,7 @@ const searchProduct = async (req, res) => {
         const products = await Products.find(filter);
 
         if (!products.length) {
-            return res.status(404).json({ success: false, message: "No products found matching the search term(s)" });
+            return res.status(404).json({ success: false, message: "No products found" });
         }
 
         res.status(200).json({ success: true, products });
