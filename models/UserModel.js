@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const generateCustomId = require('./../utils/customIdGenerator');
+const Product = require("./../models/ProductModel");
 
 // Generating Schema
 const userSchema = new mongoose.Schema({
@@ -20,7 +21,7 @@ const userSchema = new mongoose.Schema({
         },
     },
     contactNumber : { type : Number},
-    wishlist: [{ type : mongoose.Schema.Types.ObjectId, ref : 'Product' }],
+    wishlist: [{ type : mongoose.Schema.Types.ObjectId, ref : Product }],
     role: {type: String, required: true},
     createdAt: {
         type: Date,
