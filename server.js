@@ -26,7 +26,7 @@ mongoose
 const allowedOrigins = [
   "http://localhost:5173", //front end Local development
   "https://homecraft-backend.onrender.com", // backend production domain
-  "https://homecraft-app.netlify.app/" // front end production domain
+  "https://homecraft-app.netlify.app" // front end production domain
 ];
 // Use cors middleware
 server.use(
