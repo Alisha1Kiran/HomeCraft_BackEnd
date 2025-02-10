@@ -24,22 +24,45 @@ const searchProduct = async (req, res) => {
             { model: DoorCount, field: "doorCount_id" }
         ];
 
-        const searchResults = await Promise.all(
-            collections.map(({ model }) =>
-                model.findOne({ name: { $regex: searchTerm1, $options: "i" } })
-            )
-        );
+        const findMatch = async (searchTerm) => {
+            const searchResults = await Promise.all(
+                collections.map(async ({ model, field }) => {
+                    const match = await model.findOne({ name: { $regex: searchTerm, $options: "i" } });
+                    return match ? { field, id: match._id } : null;
+                })
+            );
+            return searchResults.filter((result) => result !== null);
+        };
 
-        console.log("Search results from collections:", searchResults);
+        const matches1 = searchTerm1 ? await findMatch(searchTerm1) : [];
+        const matches2 = searchTerm2 ? await findMatch(searchTerm2) : [];
 
-        const matchedCollection = searchResults.find(result => result !== null);
-        if (matchedCollection) {
-            const matchedIndex = searchResults.indexOf(matchedCollection);
-            filter[collections[matchedIndex].field] = matchedCollection._id;
+        console.log("Matches for searchTerm1:", matches1);
+        console.log("Matches for searchTerm2:", matches2);
+
+        if (searchTerm1 && searchTerm2) {
+            if (matches1.length === 0 || matches2.length === 0) {
+                return res.status(404).json({ success: false, message: "No products found matching both search terms" });
+            }
+
+            matches1.forEach(({ field, id }) => {
+                const match2 = matches2.find((m) => m.field !== field);
+                if (match2) {
+                    filter["$and"] = [
+                        { [field]: id },
+                        { [match2.field]: match2.id }
+                    ];
+                }
+            });
+        } else {
+            const matches = matches1.length ? matches1 : matches2;
+            matches.forEach(({ field, id }) => {
+                filter[field] = id;
+            });
         }
 
         if (Object.keys(filter).length === 0) {
-            return res.status(404).json({ success: false, message: "No products found matching the search term" });
+            return res.status(404).json({ success: false, message: "No products found matching the search term(s)" });
         }
 
         console.log("Final product filter:", filter);
@@ -47,7 +70,7 @@ const searchProduct = async (req, res) => {
         const products = await Products.find(filter);
 
         if (!products.length) {
-            return res.status(404).json({ success: false, message: "No products found matching the search term" });
+            return res.status(404).json({ success: false, message: "No products found matching the search term(s)" });
         }
 
         res.status(200).json({ success: true, products });
