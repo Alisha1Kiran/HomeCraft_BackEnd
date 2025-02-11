@@ -1,9 +1,9 @@
 const jwt = require("jsonwebtoken");
 
 const verifyToken = (req, res, next) => {
-    // console.log("Cookies received:", req.cookies);
-    // res.header("Access-Control-Allow-Origin", "http://localhost:5173"); // Allow frontend
-    // res.header("Access-Control-Allow-Credentials", "true"); // ✅ Allow cookies
+    console.log("Cookies received:", req.cookies);
+    res.header("Access-Control-Allow-Origin", "https://homecraft-app.netlify.app"); // Allow frontend
+    res.header("Access-Control-Allow-Credentials", "true"); // ✅ Allow cookies
     try {
         const token = req.cookies.authToken;
         console.log("token: ", token);
