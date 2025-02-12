@@ -47,7 +47,7 @@ const createUser = async (req, res) => {
         // Set the JWT token in an HTTP-only cookie
         res.cookie("authToken", token, {
           httpOnly: true, // Prevent access to cookies via JavaScript
-          secure: process.env.NODE_ENV === "production", // Use secure cookies in production
+          secure: true, // Use secure cookies in production
           maxAge: 60 * 60 * 1000, // Cookie expiry time (1 hour)
         });
         // Convert user document to object & remove password

@@ -5,7 +5,7 @@ const verifyToken = (req, res, next) => {
     console.log("Cookies received2:", req.cookies.authToken);
     console.log("Cookies received3:", req.cookies?.authToken);
     // res.header("Access-Control-Allow-Origin", "https://homecraft-app.netlify.app"); // Allow frontend
-    // res.header("Access-Control-Allow-Credentials", "true"); // ✅ Allow cookies
+    // res.header("Access-Control-Allow-Credentials", "true"); // Allow cookies
     try {
         const token = req.cookies.authToken;
         console.log("token: ", token);
