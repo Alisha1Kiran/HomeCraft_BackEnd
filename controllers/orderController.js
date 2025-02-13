@@ -82,6 +82,19 @@ const getAllOrders = async (req, res) => {
     }
 };
 
+//get all orders
+const getTotalOrder = async (req, res) => {
+    try {
+        if (req.user.role !== "admin")
+            return sendError(res, 403, "Access denied: Admins only");
+
+        const totalOrders = await Orders.countDocuments();
+        sendSuccess(res, 200, "Total orders count retrieved", { totalOrders });
+    } catch (error) {
+        sendError(res, 500, `Error fetching order count: ${error.message}`);
+    }
+}
+
 // get order by id
 const getOrderById = async (req, res) => {
     try {
@@ -146,5 +159,5 @@ const deleteOrder = async (req, res) => {
     }
 };
 
-module.exports = {createOrder, getAllOrders, getOrderById, updateOrderStatus, deleteOrder}
+module.exports = {createOrder, getAllOrders, getTotalOrder, getOrderById, updateOrderStatus, deleteOrder}
 

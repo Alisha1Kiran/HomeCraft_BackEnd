@@ -3,6 +3,7 @@ const productsRouter = express.Router();
 const {
   createProduct,
   getAllProducts,
+  getTotalProduct,
   getProductById,
   getProductByName,
   updateProduct,
@@ -14,6 +15,8 @@ const {searchProduct} = require("./../controllers/productSearch");
 productsRouter.post("/addProducts", verifyToken, createProduct);
 
 productsRouter.get("/viewAllProducts", getAllProducts);
+
+productsRouter.get("/totalProduct", getTotalProduct);
 
 productsRouter.get("/viewProductDetails/:id", getProductById);
 

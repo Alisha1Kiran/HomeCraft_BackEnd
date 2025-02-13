@@ -78,6 +78,19 @@ const getAllUsers = async (req, res) => {
   }
 };
 
+// Total user
+const getTotalUser = async (req, res) => {
+  try {
+    if (req.user.role !== "admin")
+      return sendError(res, 403, "Access denied: Admins only");
+
+      const totalUsers = await User.countDocuments();
+      sendSuccess(res, 200, "Total users count retrieved", { totalUsers });
+  } catch (error) {
+      sendError(res, 500, `Error fetching user count: ${error.message}`);
+  }
+};
+
 // get user by id
 const getUserById = async (req, res) => {
   const userId = req.params.id;
@@ -140,6 +153,7 @@ const deleteUser = async (req, res) => {
 module.exports = {
   createUser,
   getAllUsers,
+  getTotalUser,
   updateUserData,
   getUserById,
   deleteUser,
