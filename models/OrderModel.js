@@ -1,11 +1,8 @@
 const mongoose = require('mongoose');
 
 const orderSchema = new mongoose.Schema({
-    user_id: {
-        type: mongoose.Schema.Types.Mixed, // Mixed type for both ObjectId and String
-        ref: 'Users',
-        required: true
-    },
+    user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Users', required: false },  // For registered users
+    guest_id: { type: String, required: false },
     shippingAddress: {
         street: { type: String },
         city: { type: String },

@@ -15,7 +15,7 @@ const createOrder = async (req, res) => {
         }
 
         // Determine the final user identifier (either logged-in user or guest)
-        const finalUserId = user_id || guest_id;
+        // const finalUserId = user_id || guest_id;
 
         // Fetch the cart based on user_id or guest_id
         let cartQuery = user_id ? { user_id } : { guest_id };
@@ -34,7 +34,8 @@ const createOrder = async (req, res) => {
 
         // Create the order
         const newOrder = new Orders({
-            user_id: finalUserId, 
+            user_id, 
+            guest_id,
             shippingAddress,
             totalPrice,
             items: orderItems,

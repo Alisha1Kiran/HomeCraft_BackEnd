@@ -10,6 +10,7 @@ const wishlistRouter = require("./wishlistRoutes");
 const uploadImage = require("../controllers/uploadImage");
 const { upload } = require("../config/cloudninary");
 const verifyToken = require("../middlewares/verifyToken");
+const statisticsRouter = require("./statisticsRouter");
 
 // apiRouter.use("/auth");
 apiRouter.use("/user", userRouter);
@@ -20,6 +21,7 @@ apiRouter.use("/lookup", lookupRouter);
 apiRouter.use("/search", searchRouter);
 apiRouter.use("/wishlist", wishlistRouter);
 apiRouter.post("/upload-image", upload.single("image"), uploadImage);
+apiRouter.use("/statistics", statisticsRouter);
 
 apiRouter.get("/auth/checkAuth", (req, res) => {
   const token = req.cookies.authToken;
