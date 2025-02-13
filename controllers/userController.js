@@ -71,8 +71,27 @@ const getAllUsers = async (req, res) => {
     if (req.user.role !== "admin")
       return sendError(res, 403, "Access denied: Admins only");
 
-    const usersList = await User.find();
-    sendSuccess(res, 200, "User list retrieved successfully", usersList);
+    const { page = 1, limit = 10, search = "" } = req.query; // Read query params
+    const regex = new RegExp(search, "i"); // Case-insensitive search
+
+    // Fetch users with pagination and search filter
+    const usersList = await User.find({
+      $or: [{ fullName: regex }, { email: regex }], // Search by name or email
+    })
+      .skip((page - 1) * limit) // Pagination: skip the previous page
+      .limit(Number(limit)); // Limit results per page
+
+    // Get total user count for pagination info
+    const totalUsers = await User.countDocuments({
+      $or: [{ fullName: regex }, { email: regex }],
+    });
+
+    sendSuccess(res, 200, "User list retrieved successfully", {
+      usersList,
+      totalUsers,
+      currentPage: page,
+      totalPages: Math.ceil(totalUsers / limit),
+    });
   } catch (err) {
     sendError(res, 500, `Failed to retrieve users. Error: ${err.message}`);
   }
@@ -84,10 +103,10 @@ const getTotalUser = async (req, res) => {
     if (req.user.role !== "admin")
       return sendError(res, 403, "Access denied: Admins only");
 
-      const totalUsers = await User.countDocuments();
-      sendSuccess(res, 200, "Total users count retrieved", { totalUsers });
+    const totalUsers = await User.countDocuments();
+    sendSuccess(res, 200, "Total users count retrieved", { totalUsers });
   } catch (error) {
-      sendError(res, 500, `Error fetching user count: ${error.message}`);
+    sendError(res, 500, `Error fetching user count: ${error.message}`);
   }
 };
 
@@ -107,27 +126,28 @@ const getUserById = async (req, res) => {
 
 // Modify user details
 const updateUserData = async (req, res) => {
-  const userId = req.params.id; // User ID from URL
-  const userDataToUpdate = req.body; // Fields to update
+  const userId = req.params.id;
+  const { role, ...userDataToUpdate } = req.body; // Extract role from body if it's being updated
+
+  if (role && req.user.role !== "admin") {
+    return sendError(res, 403, "Only admins can change user roles.");
+  }
 
   try {
     const updatedUser = await User.findOneAndUpdate(
       { id: userId },
-      userDataToUpdate,
-      { new: true, runValidators: true } // Return updated document and validate changes
+      { ...userDataToUpdate, role }, // If role is passed, update it
+      { new: true, runValidators: true }
     );
 
     if (!updatedUser) return sendError(res, 404, "User not found");
 
     sendSuccess(res, 200, "User updated successfully", updatedUser);
   } catch (error) {
-    sendError(
-      res,
-      500,
-      `Error updating user details. Details: ${error.message}`
-    );
+    sendError(res, 500, `Error updating user details. Details: ${error.message}`);
   }
 };
+
 
 // Delete user account
 const deleteUser = async (req, res) => {
@@ -144,7 +164,7 @@ const deleteUser = async (req, res) => {
 
     if (!deleteUser) return sendError(res, 404, "User not found.");
 
-    sendSuccess(res, 200, "User deleted successfully", deletedUser);
+    sendSuccess(res, 200, "User deleted successfully", deleteUser);
   } catch (error) {
     sendError(res, 500, `Error deleting user. Details: ${error.message}`);
   }
