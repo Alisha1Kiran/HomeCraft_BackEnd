@@ -40,22 +40,58 @@ const createProduct = async (req, res) => {
 };
 
 // Fetch all products
-const getAllProducts = async (req, res) => {
-    try {
-      const products = await Product.find();
-      // Get the total count of products
-      const totalCount = await Product.countDocuments();
+// const getAllProducts = async (req, res) => {
+//     try {
+//       const products = await Product.find();
+//       // Get the total count of products
+//       const totalCount = await Product.countDocuments();
 
-      if (products.length === 0) {
-        return sendError(res, 404, 'No products found.');
-      }
-      sendSuccess(res, 200, 'Products retrieved successfully', {
-            totalCount,
-            products
-        });
-    } catch (error) {
-      sendError(res, 500, `Error fetching products: ${error.message}`);
+//       if (products.length === 0) {
+//         return sendError(res, 404, 'No products found.');
+//       }
+//       sendSuccess(res, 200, 'Products retrieved successfully', {
+//             totalCount,
+//             products
+//         });
+//     } catch (error) {
+//       sendError(res, 500, `Error fetching products: ${error.message}`);
+//     }
+// };
+
+const getAllProducts = async (req, res) => {
+  try {
+    let { page = 1, limit = 10, search = "", category = "" } = req.query;
+    page = parseInt(page);
+    limit = parseInt(limit);
+
+    // Filter conditions
+    let filter = {};
+    if (search) {
+      filter.name = { $regex: search, $options: "i" }; // Case-insensitive search
     }
+    if (category) {
+      filter.category = category;
+    }
+
+    // Count total products
+    const totalProducts = await Product.countDocuments(filter);
+
+    // Fetch products with pagination
+    const products = await Product.find(filter)
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .sort({ createdAt: -1 });
+
+    res.json({
+      success: true,
+      totalProducts,
+      totalPages: Math.ceil(totalProducts / limit),
+      currentPage: page,
+      products,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server Error", error });
+  }
 };
 
 //get total product count
