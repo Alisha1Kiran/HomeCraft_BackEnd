@@ -70,14 +70,17 @@ const getAllProducts = async (req, res) => {
       filter.name = { $regex: search, $options: "i" }; // Case-insensitive search
     }
     if (category) {
-      filter.category = category;
+      filter.category_id = category;
     }
 
     // Count total products
     const totalProducts = await Product.countDocuments(filter);
 
-    // Fetch products with pagination
+    // Fetch products with population
     const products = await Product.find(filter)
+      .populate("category_id", "name") // Fetch category details (only name field)
+      .populate("subcategory_id", "name") // Fetch subcategory details (only name field)
+      .populate("purposeFor_id", "name") // Fetch purposeFor details (only name field)
       .skip((page - 1) * limit)
       .limit(limit)
       .sort({ createdAt: -1 });
