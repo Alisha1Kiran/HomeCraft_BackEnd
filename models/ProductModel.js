@@ -15,25 +15,31 @@ const productSchema = new mongoose.Schema({
         required: true
     },
     category_id: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Category',
         required: true
     },
     subcategory_id: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'SubCategory',
         required: true
     },
     purposeFor_id: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'PurposeFor',
         required: true
     },
     bedSize_id: {
-        type: String
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'BedSize'
     },
     seatingSize_id: {
-        type: String
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'SeatingSize'
     },
     doorCout_id: {
-        type: String
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'DoorCount'
     },
     stock: {
         type: Number,

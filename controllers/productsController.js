@@ -59,6 +59,7 @@ const createProduct = async (req, res) => {
 // };
 
 const getAllProducts = async (req, res) => {
+  console.log("getAllProducts");
   try {
     let { page = 1, limit = 10, search = "", category = "" } = req.query;
     page = parseInt(page);
@@ -76,14 +77,17 @@ const getAllProducts = async (req, res) => {
     // Count total products
     const totalProducts = await Product.countDocuments(filter);
 
+    console.log("gvhbj: ", totalProducts)
     // Fetch products with population
     const products = await Product.find(filter)
-      .populate("category_id", "name") // Fetch category details (only name field)
-      .populate("subcategory_id", "name") // Fetch subcategory details (only name field)
-      .populate("purposeFor_id", "name") // Fetch purposeFor details (only name field)
+      .populate("category_id")
+      .populate("subcategory_id")
+      .populate("purposeFor_id")
       .skip((page - 1) * limit)
       .limit(limit)
       .sort({ createdAt: -1 });
+
+      console.log(products);
 
     res.json({
       success: true,
