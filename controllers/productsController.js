@@ -3,9 +3,9 @@ const {sendSuccess, sendError} = require("./../utils/apiUtils");
 
 // create product
 const createProduct = async (req, res) => {
-    if(!req.user.role == "admin") return sendError(res, "Not an authorized user to perform this action");
+    if(req.user.role !== "admin") return sendError(res, "Not an authorized user to perform this action");
 
-    const { name, description, price, category_id, subcategory_id,purposeFor_id, specifications, stock, images } = req.body;
+    const { name, description, price, category_id,bedSize_id, seatingSize_id, doorCount_id, subcategory_id,purposeFor_id, specifications, stock, images } = req.body;
 
     if(!name || !price || !category_id || !purposeFor_id || !stock)
         return sendError(res, 400, "Name, Price, Category, Purpose for and Stock are manditory");
@@ -23,9 +23,9 @@ const createProduct = async (req, res) => {
             category_id,
             subcategory_id,
             purposeFor_id,
-            bedSize_id,
-            seatingSize_id,
-            doorCount_id,
+            bedSize_id: bedSize_id || null,  
+    seatingSize_id: seatingSize_id || null,  
+    doorCount_id: doorCount_id || null, 
             specifications,
             stock,
             images

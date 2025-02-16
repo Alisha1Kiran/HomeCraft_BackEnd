@@ -39,7 +39,7 @@ const productSchema = new mongoose.Schema({
         ref: 'SeatingSize',
         required: false
     },
-    doorCout_id: {
+    doorCount_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'DoorCount',
         required: false
@@ -59,11 +59,11 @@ const productSchema = new mongoose.Schema({
     specifications: {
         weight: {
             type: String,
-            required: true
+            required: false
         },
         color: {
             type: String,
-            required: true
+            required: false
         },
         assembly_provided: {
             type: Boolean,
@@ -71,29 +71,21 @@ const productSchema = new mongoose.Schema({
         },
         dimensions: {
             type: String,
+            required: false,
             trim: true
         },
         features: {
-            type: String
+            type: String,
+            required: false
         },
         general: {
-            type: String
+            type: String,
+            required: false
         },
         material: {
             type: String,
+            required: false,
             trim: true
-        },
-        bed_size_id: {
-            type: String
-        },
-        mattress_type_id: {
-            type: String
-        },
-        seat_count: {
-            type: String
-        },
-        door_count: {
-            type: String
         }
     },
     ratings: {
@@ -106,5 +98,5 @@ const productSchema = new mongoose.Schema({
     }
 })    
 
-const Products = mongoose.model('Products', productSchema); // Model registration
-module.exports = Products;
+const Product = mongoose.model('Product', productSchema); // Model registration
+module.exports = Product;
