@@ -25,7 +25,7 @@ const createProduct = async (req, res) => {
             purposeFor_id,
             bedSize_id,
             seatingSize_id,
-            doorCout_id,
+            doorCount_id,
             specifications,
             stock,
             images

@@ -31,15 +31,18 @@ const productSchema = new mongoose.Schema({
     },
     bedSize_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'BedSize'
+        ref: 'BedSize',
+        required: false
     },
     seatingSize_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'SeatingSize'
+        ref: 'SeatingSize',
+        required: false
     },
     doorCout_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'DoorCount'
+        ref: 'DoorCount',
+        required: false
     },
     stock: {
         type: Number,
