@@ -7,7 +7,7 @@ const createProduct = async (req, res) => {
 
     const { name, description, price, category_id, subcategory_id,purposeFor_id, specifications, stock, images } = req.body;
 
-    if(!name || !price || !category_id || purposeFor_id || !stock)
+    if(!name || !price || !category_id || !purposeFor_id || !stock)
         return sendError(res, 400, "Name, Price, Category, Purpose for and Stock are manditory");
 
     try {
