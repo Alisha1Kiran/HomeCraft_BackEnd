@@ -32,7 +32,17 @@ const createProduct = async (req, res) => {
           });
 
           await newProduct.save();
-        sendSuccess(res, 201, 'Product created successfully', newProduct);
+
+          // Populate the referenced fields
+        const populatedProduct = await Product.findById(newProduct._id)
+        .populate("category_id")
+        .populate("subcategory_id")
+        .populate("purposeFor_id")
+        .populate("bedSize_id")
+        .populate("seatingSize_id")
+        .populate("doorCount_id");
+
+        sendSuccess(res, 201, 'Product created successfully', populatedProduct);
         
     } catch (error) {
         sendError(res, 500, `Error creating product: ${error.message}`);
