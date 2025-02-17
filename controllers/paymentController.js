@@ -5,6 +5,7 @@ const Cart = require("./../models/CartModel");
 
 const createPayment = async (req, res) => {
     console.log("inside createpayment");
+    console.log("Stripe Secret Key:", process.env.STRIPE_SECRET_KEY);
   try {
     const { amount } = req.body; // Get the total price from the frontend
 
