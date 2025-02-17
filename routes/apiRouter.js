@@ -7,6 +7,7 @@ const orderRouter = require("./orderRouter");
 const lookupRouter = require("./lookupRouter");
 const searchRouter = require("./searchRouter");
 const wishlistRouter = require("./wishlistRoutes");
+const paymentRouter = require("./paymentRouter");
 const uploadImage = require("../controllers/uploadImage");
 const { upload } = require("../config/cloudninary");
 const verifyToken = require("../middlewares/verifyToken");
