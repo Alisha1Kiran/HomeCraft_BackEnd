@@ -1,9 +1,11 @@
 const mongoose = require('mongoose');
+const Product = require("./ProductModel");
+const User = require("./UserModel");
 
 const cartSchema = new mongoose.Schema({
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Users', // Reference to the User model
+        ref: 'User', // Reference to the User model
         required: false
     },
     guest_id: {
@@ -15,7 +17,7 @@ const cartSchema = new mongoose.Schema({
         {
             product_id: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: 'Products', // Reference to the Product model
+                ref: 'Product', // Reference to the Product model
                 required: true
             },
             quantity: {

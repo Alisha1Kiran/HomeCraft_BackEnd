@@ -4,7 +4,6 @@ const { sendSuccess, sendError } = require("./../utils/apiUtils");
 const { v4: uuidv4 } = require("uuid"); // For generating unique guest IDs
 
 const addCart = async (req, res) => {
-  console.log("inside cart");
   const { user_id, product_id, quantity, guest_id } = req.body;
   try {
     // Validate quantity

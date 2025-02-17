@@ -16,12 +16,13 @@ const statisticsRouter = require("./statisticsRouter");
 apiRouter.use("/user", userRouter);
 apiRouter.use("/products", productsRouter);
 apiRouter.use("/review", reviewRouter);
-apiRouter.use("/order", orderRouter);
+apiRouter.use("/orders", orderRouter);
 apiRouter.use("/lookup", lookupRouter);
 apiRouter.use("/search", searchRouter);
 apiRouter.use("/wishlist", wishlistRouter);
 apiRouter.post("/upload-image", upload.single("image"), uploadImage);
 apiRouter.use("/statistics", statisticsRouter);
+apiRouter.use('/api/payment', paymentRouter);
 
 apiRouter.get("/auth/checkAuth", (req, res) => {
   const token = req.cookies.authToken;
