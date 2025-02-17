@@ -23,7 +23,7 @@ apiRouter.use("/search", searchRouter);
 apiRouter.use("/wishlist", wishlistRouter);
 apiRouter.post("/upload-image", upload.single("image"), uploadImage);
 apiRouter.use("/statistics", statisticsRouter);
-apiRouter.use('/api/payment', paymentRouter);
+apiRouter.use("/payment", paymentRouter);
 
 apiRouter.get("/auth/checkAuth", (req, res) => {
   const token = req.cookies.authToken;

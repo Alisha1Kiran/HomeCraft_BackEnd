@@ -4,6 +4,7 @@ const Order = require("./../models/OrderModel");
 const Cart = require("./../models/CartModel");
 
 const createPayment = async (req, res) => {
+    console.log("inside createpayment");
   try {
     const { amount } = req.body; // Get the total price from the frontend
 
