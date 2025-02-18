@@ -24,6 +24,7 @@ const createPayment = async (req, res) => {
 const confirmPayment = async (req, res) => {
   try {
     const { paymentIntentId, user_id, guest_id, shippingAddress } = req.body;
+    console.log(paymentIntentId);
 
     // Get the payment intent from Stripe
     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);

@@ -1,4 +1,10 @@
 const mongoose = require('mongoose');
+const Catetory = require('./CategoryModel');
+const SubCategory = require('./SubCategoryModel');
+const PurposeFor = require('./PurposeForModel');
+const BedSize = require('./BedSizeModel');
+const SeatingSize = require('./SeatingSizeModel');
+const DoorCount = require('./DoorCountModel');
 
 const productSchema = new mongoose.Schema({
     name: {
