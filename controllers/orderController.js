@@ -90,7 +90,7 @@ const getTotalOrder = async (req, res) => {
     if (req.user.role !== "admin")
       return sendError(res, 403, "Access denied: Admins only");
 
-    const totalOrders = await Orders.countDocuments();
+    const totalOrders = await Order.countDocuments();
     sendSuccess(res, 200, "Total orders count retrieved", { totalOrders });
   } catch (error) {
     sendError(res, 500, `Error fetching order count: ${error.message}`);
