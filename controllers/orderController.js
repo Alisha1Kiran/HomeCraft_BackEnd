@@ -67,22 +67,47 @@ const getUserOrders = async (req, res) => {
   };
 
 // get all orders
+// get all orders with pagination
 const getAllOrders = async (req, res) => {
   try {
     if (req.user.role !== "admin")
-        return sendError(res, 403, "Access denied: Admins only");
+      return sendError(res, 403, "Access denied: Admins only");
 
-    const orders = await Order.find().populate("items.product_id user_id");
+    // Pagination settings
+    const page = parseInt(req.query.page) || 1; // Default to page 1 if not provided
+    const limit = parseInt(req.query.limit) || 10; // Default to 10 orders per page
+    const skip = (page - 1) * limit;
+
+    // Query with pagination
+    const orders = await Order.find()
+      .skip(skip)
+      .limit(limit)
+      .populate("items.product_id user_id");
+
+    // Get the total number of orders for pagination
+    const totalOrders = await Order.countDocuments();
+
+    // Calculate the total pages
+    const totalPages = Math.ceil(totalOrders / limit);
+
     sendSuccess(
       res,
       200,
       "Orders retrieved successfully",
-      orders
+      {
+        orders,
+        pagination: {
+          currentPage: page,
+          totalPages,
+          totalOrders,
+        },
+      }
     );
   } catch (error) {
     sendError(res, 500, error.message);
   }
 };
+
 
 //get all orders
 const getTotalOrder = async (req, res) => {
