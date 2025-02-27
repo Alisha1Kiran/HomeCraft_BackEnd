@@ -1,14 +1,23 @@
 const mongoose = require('mongoose');
+const User = require('./../models/UserModel');
+const Product = require('./../models/ProductModel');
 
 const reviewSchema = new mongoose.Schema({
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User', // Reference to the User model
-        required: true
+        ref: 'User',
+        required: false
+    },
+    guestName: {
+        type: String,
+        trim: true,
+        required: function () {
+            return !this.user_id; // Required only if user_id is not present
+        }
     },
     product_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Products', // Reference to the Product model
+        ref: 'Product',
         required: true
     },
     comment: {
@@ -19,7 +28,7 @@ const reviewSchema = new mongoose.Schema({
         type: Number,
         required: true,
         min: 1,
-        max: 5 // Restrict rating between 1 and 5
+        max: 5
     },
     createdAt: {
         type: Date,

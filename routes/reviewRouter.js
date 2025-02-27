@@ -4,10 +4,10 @@ const {postProductReview, fetchProductReview, fetchUserReview, updateReview, del
 const verifyToken = require("../middlewares/verifyToken");
 
 // Post review for a particular product
-reviewRouter.post('/addReview', verifyToken, postProductReview);
+reviewRouter.post('/addReview', postProductReview);
 
 // Get all reviews for a product
-reviewRouter.get('/getProductReview/:productId', fetchProductReview);
+reviewRouter.get('/:productId', fetchProductReview);
 
 // Get All Reviews by a User
 reviewRouter.get('/getUserReview/:userId', fetchUserReview);
@@ -16,6 +16,6 @@ reviewRouter.get('/getUserReview/:userId', fetchUserReview);
 reviewRouter.put('/updateReview/:reviewId', updateReview);
 
 // Delete product review
-reviewRouter.delete('/deleteReview/:reviewId', deleteProductReview);
+reviewRouter.delete('/:reviewId', verifyToken, deleteProductReview);
 
 module.exports = reviewRouter;
