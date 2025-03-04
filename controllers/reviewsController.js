@@ -47,7 +47,7 @@ const fetchProductReview = async (req, res) => {
         const { productId } = req.params;
 
         const reviews = await Reviews.find({ product_id: productId })
-            .populate({ path: 'user_id', select: 'name', strictPopulate: false }) // Populate user details if available
+            .populate({ path: 'user_id', select: 'fullName', strictPopulate: false }) // Populate user details if available
             .lean(); // Convert mongoose object to plain JS object
 
         if (!reviews.length) return sendError(res, 404, 'No reviews found for this product');
@@ -55,7 +55,7 @@ const fetchProductReview = async (req, res) => {
         // Format response to include either user name or guest name
         const formattedReviews = reviews.map(review => ({
             ...review,
-            reviewerName: review.user_id ? review.user_id.name : review.guestName
+            reviewerName: review.user_id ? review.user_id.fullName : review.guestName
         }));
 
         sendSuccess(res, 200, 'Reviews fetched successfully', formattedReviews);
