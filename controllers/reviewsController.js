@@ -6,7 +6,6 @@ const {sendSuccess, sendError} = require("./../utils/apiUtils")
 const postProductReview = async (req, res) => {
     try {
         const { user_id, product_id, comment, rating, guestName } = req.body;
-        // const user_id = req.user?.id; // Get user_id if logged in
 
         // Check if the product exists
         const product = await Product.findById(product_id);
@@ -20,8 +19,7 @@ const postProductReview = async (req, res) => {
 
         // If guest, ensure they provided a name
         if (!user_id && !guestName) {
-            guestName = "Guest";
-            return sendError(res, 400, 'Guest name is required');
+            return sendError(res, 400, 'Guest name or user id is required');
          
         }    
 
